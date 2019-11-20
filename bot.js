@@ -28,7 +28,7 @@ client.on('message', message => {
 
 client.login(auth.token);
 
-async function getMessages(channel, limit = 1000) {
+async function getMessages(channel, limit = 10000) {
     const messageCount = [];
     let lastId;
 	client.user.setActivity('Archiving ' + channel.name + '!');
