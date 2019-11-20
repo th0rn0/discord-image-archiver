@@ -22,20 +22,20 @@ client.on('message', message => {
 		}
 		message.reply('Archiving the Channel...');
 		let archive_last_id = 646444707773415443;
-        getMessages(message.channel);
+    	getMessages(message.channel);
 	}
 });
 
 client.login(auth.token);
 
 async function getMessages(channel, limit = 1000) {
-    const sum_messages = [];
-    let last_id;
+    const messageCount = [];
+    let lastId;
 	client.user.setActivity('Archiving ' + channel.name + '!');
     while (true) {
         const options = { limit: 100 };
-        if (last_id) {
-            options.before = last_id;
+        if (lastId) {
+            options.before = lastId;
         }
 
         const messages = await channel.fetchMessages(options);
@@ -51,15 +51,15 @@ async function getMessages(channel, limit = 1000) {
 				});
 			}
 		});
-        sum_messages.push(...messages.array());
-        last_id = messages.last().id;
+        messageCount.push(...messages.array());
+        lastId = messages.last().id;
         // console.log(messages);
-        if (messages.size != 100 || sum_messages >= limit) {
+        if (messages.size != 100 || messageCount >= limit) {
         	channel.send('Images Archived');
 			client.user.setActivity('Ready to Archive!');
             break;
         }
     }
 
-    return sum_messages;
+    return messageCount;
 }
